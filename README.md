@@ -1,6 +1,6 @@
 # Model_math_finance
 
 Répartition exo 
-Yanniss 9 
-Alex 10 11 
+Yanis 9 (fait)
+Alex 10 11 (et la fonction déplacement)
 Adrien 12 13
