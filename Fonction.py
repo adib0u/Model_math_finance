@@ -73,3 +73,31 @@ def ex4B(deltaA, dureeA, taux, duree):
     while(placement(x,duree,5) < placementA):
         x=x+1
     return x
+
+'''
+    Calcul du montant à payer (delta) par mois d'un emprunt 'montantInit', de durée 'duree' (en année) avec un taux mensuel = 'taux' (compris entre 0 et 1).
+'''
+def ramboursementMens(montantInit, taux, duree):
+    return taux * montantInit * (((1+taux)**(12*duree)) / (((1+taux)**(12*duree)) - 1))
+
+'''
+    affiche les informations mensuel relatives au remboursement de 'montantInit'
+    avec un taux mensuel 'tauxMensuel'
+    sur une durée de 'duree' ans.
+    ainsi que le somme des interets cummulés de l'emprunt
+'''
+def affichageRemboursement(montantInit, tauxMensuel, duree):
+    delta = ramboursementMens(montantInit, tauxMensuel, duree)
+    sommeInteret = 0
+    for mois in range(12*duree):
+        # reste à payer en fonction du mois
+        reste = (montantInit * ((1+tauxMensuel)**mois)) - delta * ((((1+tauxMensuel)**mois) -1) / (tauxMensuel))
+
+        # somme des interets:
+        interet = reste * tauxMensuel
+        sommeInteret = sommeInteret + interet
+
+        # affichage des informations mensuel
+        print("mois n°" + str(mois) + "\t reste: " + str(round(reste,3)) + "\t interets: " + str(round(interet,3)) + "\t interets cumulés: " + str(round(sommeInteret,3)))
+    print("total des interets cummulés: " + str(sommeInteret))
+    print("dépenses total: " + str(montantInit + sommeInteret))
