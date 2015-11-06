@@ -51,5 +51,9 @@ def rendAnnuelSimple(delta, duree, taux):
     pla = placementSimple(delta, duree, taux)
     return (pla-delta)/duree
     
-def ex4B((delta, duree, taux):
-    placementA=
+def ex4B(delta, duree, taux):
+    placementA = placement(delta, duree, taux)
+    x=1000
+    while(placement(x,20,5) < placementA):
+        x=x+1
+    return x
