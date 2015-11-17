@@ -89,7 +89,7 @@ def ramboursementMens(montantInit, taux, duree):
 def affichageRemboursement(montantInit, tauxMensuel, duree):
     delta = ramboursementMens(montantInit, tauxMensuel, duree)
     sommeInteret = 0
-    for mois in range(12*duree):
+    for mois in range(12*duree+1):
         # reste à payer en fonction du mois
         reste = (montantInit * ((1+tauxMensuel)**mois)) - delta * ((((1+tauxMensuel)**mois) -1) / (tauxMensuel))
 
