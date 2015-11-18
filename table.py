@@ -22,8 +22,6 @@ def table(taux):
     for m in range(0, 9):
         for p in range(0, 24):
             tableApendice[m][p] = apendice(listePeriode[p] , listeMontant[m] , taux)
-            
-        
     return tableApendice
     
 print( table(0.08) )
