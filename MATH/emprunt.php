@@ -95,16 +95,16 @@
 		 $myPicture->drawScale($scaleSettings);
 
 		/* J'insère sur le côté droit le nom de l'auteur et les droits */ 
-		$myPicture->setFontProperties(array("FontName"=>"./pChart2.1.4/fonts/Bedizen.ttf","FontSize"=>6));
-		$TextSettings = array("DrawBox"=>TRUE,"BoxRounded"=>TRUE,"R"=>0,"G"=>0,"B"=>0,"Angle"=>90,"FontSize"=>10);
-		$myPicture->drawText(860,300,"Création : FabPlug.com - Tous droits réservés",$TextSettings);
+		//$myPicture->setFontProperties(array("FontName"=>"./pChart2.1.4/fonts/Bedizen.ttf","FontSize"=>6));
+		//$TextSettings = array("DrawBox"=>TRUE,"BoxRounded"=>TRUE,"R"=>0,"G"=>0,"B"=>0,"Angle"=>90,"FontSize"=>10);
+		//$myPicture->drawText(860,300,"Création : FabPlug.com - Tous droits réservés",$TextSettings);
 
 		/* Je dessine mon graphique en fonction des paramètres précédents */
 		$myPicture->drawAreaChart();
 		$myPicture->drawLineChart(); 
 
 		/* Je rajoute des points rouge (plots) en affichant par dessus les données */
-		$myPicture->drawPlotChart(array("DisplayValues"=>TRUE,"PlotBorder"=>TRUE,"BorderSize"=>2,"Surrounding"=>-60,"BorderAlpha"=>80));
+		//$myPicture->drawPlotChart(array("DisplayValues"=>TRUE,"PlotBorder"=>TRUE,"BorderSize"=>2,"Surrounding"=>-60,"BorderAlpha"=>80));
 
 		/* J'indique le chemin où je souhaite que mon image soit créée */
 		 $myPicture->Render("img/rest_a_payer.png");
