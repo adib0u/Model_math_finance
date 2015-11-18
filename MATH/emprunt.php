@@ -20,7 +20,7 @@
 
 		$tauxMensuel = $tauxAnnuel/12;
 
-		$matrice[] = array("Mois","Reste","Interets", "Interet cumulés");
+		//$matrice[] = array("Mois","Reste","Interets", "Interet cumulés");
 	    $delta = remboursementMens($montantInit, $tauxMensuel, $duree);
 	    $sommeInteret = 0;
 	    for ($mois = 0; $mois <= 12*$duree; $mois++){
@@ -90,7 +90,7 @@
 
 		/* J'indique le chemin où je souhaite que mon image soit créée */
 		str_replace(" ", "_", $titre);
-		$myPicture->Render("img/". $titre ."png");
+		$myPicture->Render("img/". $titre .".png");
 	}
 ?>
     
@@ -132,7 +132,7 @@
 			afficherTableau(remboursementEmprunt($montant, $taux, $duree));
 
 			// créé le graphe du remboursement de l'emprunt
-			$restAPayer = unset(remboursementEmprunt($montant, $taux, $duree)[0]); // tableau des données sans les titres des colonnes
+			$restAPayer = remboursementEmprunt($montant, $taux, $duree); // tableau des données sans les titres des colonnes
 			$restAPayerV = array(); // tableau des données verticles
 			foreach ($restAPayer as $row) {
 				$restAPayerV[] = $row["reste"];
@@ -143,9 +143,10 @@
 				$restAPayerH[] = $row["mois"];
 			}
 			createGraphe($restAPayerV, $restAPayerH, "Reste a payer par mois", "Reste (€)", "Mois");
+			echo '<img src="/img/Reste_a_payer_par_mois.png">';
 
 			// crée le graphe de l'évolution des interets mensuels
-			$interetMens = unset(remboursementEmprunt($montant, $taux, $duree)[0]);
+			$interetMens = remboursementEmprunt($montant, $taux, $duree);
 			$interetMensV = array();
 			foreach ($interetMens as $row) {
 				$interetMensV[] = $row["interet"];
@@ -154,10 +155,11 @@
 			foreach ($interetMens as $row) {
 				$interetMensH[] = $row["mois"];
 			}
-			createGraphe($interetMensV, $interetMensH, "Interet à payer par mois", "Interet (€)", "Mois");
+			createGraphe($interetMensV, $interetMensH, "Interet a payer par mois", "Interet (€)", "Mois");
+			echo '<img src="/img/Interet_a_payer_par_mois.png">';
 
 			// crée le graphe des interets cummulés
-			$interetMensC = unset(remboursementEmprunt($montant, $taux, $duree)[0]);
+			$interetMensC = remboursementEmprunt($montant, $taux, $duree);
 			$interetMensCV = array();
 			foreach ($interetMensC as $row) {
 				$interetMensCV[] = $row["interetC"];
@@ -166,7 +168,10 @@
 			foreach ($interetMensC as $row) {
 				$interetMensCH[] = $row["mois"];
 			}
-			createGraphe($interetMensCV, $interetMensCH, "Interet cumulés", "Interet cumulé (€)", "Mois");
+			createGraphe($interetMensCV, $interetMensCH, "Interet cumules", "Interet cumulé (€)", "Mois");
+			echo '<img src="/img/Interet_cumules.png">';
+
+
 		}
 	?>
 
