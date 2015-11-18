@@ -171,6 +171,8 @@ def table(taux):
         listeMontant.append(k * 1000)
 
     tableApendice = []
+    lignes, colonnes = 9, 24
+    tableApendice = [[0] * colonnes] * lignes
     
     for m in range(0, 9):
         for p in range(0, 24):
