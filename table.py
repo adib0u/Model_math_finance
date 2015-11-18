@@ -16,12 +16,14 @@ def table(taux):
     listeMontant = []
     for k in range(1, 10 ):
         listeMontant.append(k * 1000)
-
     tableApendice = []
-    
+    lignes, colonnes = 9, 24
+    tableApendice = [[0] * colonnes] * lignes
     for m in range(0, 9):
         for p in range(0, 24):
-            tableApendice.append( apendice(listePeriode[p] , listeMontant[m] , taux) )
+            tableApendice[m][p] = apendice(listePeriode[p] , listeMontant[m] , taux)
+            
+        
     return tableApendice
     
 print( table(0.08) )
