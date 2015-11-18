@@ -2,6 +2,9 @@ from math import exp, log
 import numpy as np
 import matplotlib.pyplot as plt
 
+'''
+    Calcule le taux effectif
+'''
 def tauxEffectif(taux, duree):
     taux = taux/100
     return (1+taux/duree)**duree-1
@@ -43,7 +46,18 @@ def epargne2(delta, duree, taux):
     return (delta / taux) * (( 1 + taux)**(duree +1) - 1) - delta #on ajoute pas d'argent la dernière année car on va retirer l'argent
     
 '''
-    Calcule l'annee pour laqu'elle le rendement annuel aura doublé
+    affiche le montant pour chaque année d'une épargne
+'''
+def epargneTableau(delta, duree, taux):
+    somme = []
+    for i in range(1, duree+1):
+        resultat= epargne2(delta, i, taux)
+        somme.append(resultat)
+        print("annee " +str(i) +" = " + str(resultat))
+    return somme
+    
+'''
+    Calcule l'annee pour laqu'elle le rendement annuel aura double
 '''
 def anneeDoubleRendAnnuel(delta, duree, taux):
     x=duree
