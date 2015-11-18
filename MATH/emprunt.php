@@ -20,7 +20,7 @@
 
 		$tauxMensuel = $tauxAnnuel/12;
 
-		//$matrice[] = array("Mois","Reste","Interets", "Interet cumulés");
+		$matrice[] = array("Mois","Reste","Interets", "Interet cumulés");
 	    $delta = remboursementMens($montantInit, $tauxMensuel, $duree);
 	    $sommeInteret = 0;
 	    for ($mois = 0; $mois <= 12*$duree; $mois++){
@@ -48,66 +48,49 @@
 		}
 	}
 
-	function graphiqueRemboursement($tab) {
-
+	function createGraphe($vData, $hData, $titre, $vLabel, $hLabel) {
 
 		$MyData = new pData();
 
-		$vData = array();
-		foreach ($tab as $row) {
-			$vData[] = $row["reste"];
-		}
-
 		/*Je présente ma série de données à utiliser pour le graphique et je détermine le titre de l'axe vertical avec setAxisName*/  
-		 $MyData->addPoints($vData,"Probe 3");
-		 $MyData->setSerieWeight("Probe 3",2);
-		 $MyData->setAxisName(0,"Reste à payer");
-
- 		$hData = array();
-		foreach ($tab as $row) {
-			$hData[] = $row["mois"];
-		}
+		$MyData->addPoints($vData,"Probe 3");
+		$MyData->setSerieWeight("Probe 3",2);
+		$MyData->setAxisName(0,$vLabel);
 
 		/*J'indique les données horizontales du graphique. Il doit y avoir le même nombre que pour ma série de données précédentes (logique)*/
-		 $MyData->addPoints($hData,"Labels");
-		 $MyData->setSerieDescription("Labels","Mois");
-		 $MyData->setAbscissa("Labels");
-		 $MyData->setPalette("Probe 3",array("R"=>255,"G"=>0,"B"=>0));
+		$MyData->addPoints($hData,"Labels");
+		$MyData->setSerieDescription("Labels", $hLabel);
+		$MyData->setAbscissa("Labels");
+		$MyData->setPalette("Probe 3",array("R"=>255,"G"=>0,"B"=>0));
+
 
 		/* Je crée l'image qui contiendra mon graphique précédemment crée */
-		 $myPicture = new pImage(900,330,$MyData);
+		$myPicture = new pImage(900,330,$MyData);
 
 		/* Je crée une bordure à mon image */
-		 $myPicture->drawRectangle(0,0,899,329,array("R"=>0,"G"=>0,"B"=>0));
+		$myPicture->drawRectangle(0,0,899,329,array("R"=>0,"G"=>0,"B"=>0));
 
 		/* J'indique le titre de mon graphique, son positionnement sur l'image et sa police */ 
-		 $myPicture->setFontProperties(array("FontName"=>"./pChart2.1.4/fonts/Forgotte.ttf","FontSize"=>11));
-		 $myPicture->drawText(200,25,"Reste à payer par mois",array("FontSize"=>20,"Align"=>TEXT_ALIGN_BOTTOMMIDDLE));
+		$myPicture->setFontProperties(array("FontName"=>"./pChart2.1.4/fonts/Forgotte.ttf","FontSize"=>11));
+		$myPicture->drawText(200,25,$titre,array("FontSize"=>20,"Align"=>TEXT_ALIGN_BOTTOMMIDDLE));
 
 		/* Je choisi le fond de mon graphique */
-		 $myPicture->setFontProperties(array("FontName"=>"./pChart2.1.4/fonts/pf_arma_five.ttf","FontSize"=>6));
+		$myPicture->setFontProperties(array("FontName"=>"./pChart2.1.4/fonts/pf_arma_five.ttf","FontSize"=>6));
 
 		/* Je détermine la taille du graphique et son emplacement dans l'image */
-		 $myPicture->setGraphArea(60,40,800,310);
+		$myPicture->setGraphArea(60,40,800,310);
 
 		/* Paramètres pour dessiner le graphique à partir des deux abscisses */
-		 $scaleSettings = array("XMargin"=>10,"YMargin"=>10,"Floating"=>TRUE,"GridR"=>200,"GridG"=>200,"GridB"=>200,"DrawSubTicks"=>TRUE,"CycleBackground"=>TRUE);
-		 $myPicture->drawScale($scaleSettings);
-
-		/* J'insère sur le côté droit le nom de l'auteur et les droits */ 
-		//$myPicture->setFontProperties(array("FontName"=>"./pChart2.1.4/fonts/Bedizen.ttf","FontSize"=>6));
-		//$TextSettings = array("DrawBox"=>TRUE,"BoxRounded"=>TRUE,"R"=>0,"G"=>0,"B"=>0,"Angle"=>90,"FontSize"=>10);
-		//$myPicture->drawText(860,300,"Création : FabPlug.com - Tous droits réservés",$TextSettings);
+		$scaleSettings = array("XMargin"=>10,"YMargin"=>10,"Floating"=>TRUE,"GridR"=>200,"GridG"=>200,"GridB"=>200,"DrawSubTicks"=>TRUE,"CycleBackground"=>TRUE);
+		$myPicture->drawScale($scaleSettings);
 
 		/* Je dessine mon graphique en fonction des paramètres précédents */
 		$myPicture->drawAreaChart();
 		$myPicture->drawLineChart(); 
 
-		/* Je rajoute des points rouge (plots) en affichant par dessus les données */
-		//$myPicture->drawPlotChart(array("DisplayValues"=>TRUE,"PlotBorder"=>TRUE,"BorderSize"=>2,"Surrounding"=>-60,"BorderAlpha"=>80));
-
 		/* J'indique le chemin où je souhaite que mon image soit créée */
-		 $myPicture->Render("img/rest_a_payer.png");
+		str_replace(" ", "_", $titre);
+		$myPicture->Render("img/". $titre ."png");
 	}
 ?>
     
@@ -145,8 +128,45 @@
 			$montant = $_GET['mont'];
 			$taux = $_GET['tx'];
 
+			// affiche le tableau des données
 			afficherTableau(remboursementEmprunt($montant, $taux, $duree));
-			graphiqueRemboursement(remboursementEmprunt($montant, $taux, $duree));
+
+			// créé le graphe du remboursement de l'emprunt
+			$restAPayer = unset(remboursementEmprunt($montant, $taux, $duree)[0]); // tableau des données sans les titres des colonnes
+			$restAPayerV = array(); // tableau des données verticles
+			foreach ($restAPayer as $row) {
+				$restAPayerV[] = $row["reste"];
+			}
+
+			$restAPayerH = array(); // tableau des données horizontals
+			foreach ($restAPayer as $row) {
+				$restAPayerH[] = $row["mois"];
+			}
+			createGraphe($restAPayerV, $restAPayerH, "Reste a payer par mois", "Reste (€)", "Mois");
+
+			// crée le graphe de l'évolution des interets mensuels
+			$interetMens = unset(remboursementEmprunt($montant, $taux, $duree)[0]);
+			$interetMensV = array();
+			foreach ($interetMens as $row) {
+				$interetMensV[] = $row["interet"];
+			}
+			$interetMensH = array();
+			foreach ($interetMens as $row) {
+				$interetMensH[] = $row["mois"];
+			}
+			createGraphe($interetMensV, $interetMensH, "Interet à payer par mois", "Interet (€)", "Mois");
+
+			// crée le graphe des interets cummulés
+			$interetMensC = unset(remboursementEmprunt($montant, $taux, $duree)[0]);
+			$interetMensCV = array();
+			foreach ($interetMensC as $row) {
+				$interetMensCV[] = $row["interetC"];
+			}
+			$interetMensCH = array();
+			foreach ($interetMensC as $row) {
+				$interetMensCH[] = $row["mois"];
+			}
+			createGraphe($interetMensCV, $interetMensCH, "Interet cumulés", "Interet cumulé (€)", "Mois");
 		}
 	?>
 
