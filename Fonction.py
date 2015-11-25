@@ -130,6 +130,7 @@ def demi(N , ra , p0):
         print (k,round(pk,3))
         if(pk <= (p0/2)):
             print ("la moitié est remboursé")
+            return(k)
 
 '''
     affiche le montant qu'il reste à payer au kieme mois avec un taux effectif
@@ -146,7 +147,7 @@ def demiEffectif(N , ra , p0):
 '''
     retourne le montant qu'il reste à payer au Nieme mois avec un taux effectif
 '''
-def demi2(N , ra , p0):
+def resteAPayer(N , ra , p0):
     r = ((1+ra/12)**12-1)/12
     #r = ra/12
     mens = r * p0 *( (1+r) ** (240) ) / (( (1+r) ** (240) ) - 1 )
@@ -154,6 +155,7 @@ def demi2(N , ra , p0):
     
 '''
     exemple de création d'un graphique en php
+    génère les courbes de remboursement d'un emprunt de 40000€ sur 20 ans avec et sans taux
 '''
 def graphique():
     x = np.linspace(1,240,50)
@@ -173,23 +175,25 @@ def apendice(periode, montant, taux):
 
 
 '''
-    génère la table d'apendice  pour un taux donné jusqu'à un amortissement de 25 ans
+    génère la table d'apendice  pour un taux donné jusqu'à un amortissement de DureeMax ans
 '''
-def table(taux):
+def table(taux, montantMax, DureeMax):
     listePeriode = []
-    for k in range(1, 25):
+    for k in range(1, DureeMax+1):
         listePeriode.append(k)
     
     listeMontant = []
-    for k in range(1, 10 ):
-        listeMontant.append(k * 1000)
-
+    for l in range(1000, montantMax+1000, 1000 ):
+        listeMontant.append(l)
+        
     tableApendice = []
-    lignes, colonnes = 9, 24
-    tableApendice = [[0] * colonnes] * lignes
-    
-    for m in range(0, 9):
-        for p in range(0, 24):
-            tableApendice.append( apendice(listePeriode[p] , listeMontant[m] , taux) )
+    for i in range(int(montantMax/1000)):
+        tableApendice.append([0] * DureeMax)
+        
+    for m in range(int(montantMax/1000)):
+        for p in range(DureeMax):
+             valeur = apendice(listePeriode[p] , listeMontant[m] , taux)
+             tableApendice[m][p] = valeur
+             print("montant = " + str(listeMontant[m]) + ", année = " + str(listePeriode[p]) + ", valeur = "+ str(valeur))
     return tableApendice
     
