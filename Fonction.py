@@ -84,11 +84,11 @@ def rendAnnuelSimple(delta, duree, taux):
     Résoud l'exo 4B
 '''
 def ex4B(deltaA, dureeA, taux, duree):
-    placementA = placement(deltaA, dureeA, taux)
-    x=1000
-    while(placement(x,duree,5) < placementA):
-        x=x+1
-    return x
+        placementA = placement(deltaA, dureeA, taux)
+        delta = 1
+        while(placement(delta, duree, taux) <=   placementA):
+            delta += 1
+        return delta
 
 '''
     Calcul du montant à payer (delta) par mois d'un emprunt 'montantInit', de durée 'duree' (en année) avec un taux mensuel = 'taux' (compris entre 0 et 1).

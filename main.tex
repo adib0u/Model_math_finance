@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+
+\title{Exo}
+\author{Alex Medina }
+\date{November 2015}
+
+\begin{document}
+
+\maketitle
+\section{Exercice 3}
+\qquad Le taux effectif d'une compagnie est de 18\%, quel pourcentage mensuel celle-ci doit-elle utiliser ? Ce taux sera t-il plus grand ou plus petit que $\frac{18}{12}\% = 1,5\%$?
+\\
+
+\qquad Le taux effectif mensuel sera supérieur, en effet les taux effectif mensuel sont toujours supérieur à leurs taux effectif.
+
+\qquad Pour calculer le taux effectif, j'ai utilisé cette formule :
+
+$$tauxEffectif=(1+\frac{18\%}{12})^{12}-1$$
+$$19,6\%$$
+
+\qquad Soit le taux effectif mensuel : 
+$$\frac{19,6\%}{12}=1,63\%$$
+
+\qquad Le taux est donc bien supérieur à $\frac{18}{12}\%$
+
+\section{Exercice 4}
+\qquad Une étudiante fait un placement sur 45 ans en plaçant 1000\$ avec un taux à 5\%. Nous allons calculer le placement après ces 45 ans avec des intérêts annuels puis mensuels au taux de $\frac{5}{12}\%$
+
+\qquad La formule pour calculer le placement de la $ i^{eme}$ année par rapport au placement nominal ($P_0$) est :
+$$P_i = P_0 * (1+taux)^i$$
+
+\qquad Le placement annuel est donc de:
+$$P_{45} = 1000 * (1+5\%)^{45}$$
+$$8995,01\$ $$
+
+\qquad Le placement mensuel est de: 9997\$
+\\
+
+\qquad Si un autre étudiant souhaite avoir la même somme d'argent après seulement 20 ans, pour trouver l'argent qu'il devra investir, j'ai utilisé la fonction suivante:
+
+\definecolor{Zgris}{rgb}{0.87,0.85,0.85}
+
+\newsavebox{\BBbox}
+\newenvironment{DDbox}[1]{
+\begin{lrbox}{\BBbox}\begin{minipage}{\linewidth}}
+{\end{minipage}\end{lrbox}\noindent\colorbox{Zgris}{\usebox{\BBbox}} \\
+[.5cm]}
+
+\begin{DDbox}{\linewidth}
+\begin{Verbatim}
+    def ex4B(deltaA, dureeA, taux, duree):
+        placementA = placement(deltaA, dureeA, taux)
+        delta=1
+        while(placement(delta, duree, taux) <= placementA):
+            delta += 1
+        return delta
+\end{Verbatim}
+\end{DDbox}
+
+\qquad Cette fonction prend en paramètre la somme initial d'une premère personne, la durée de son placement, ainsi que son taux, et un dernier paramètre pour la durée du placement d'une deuxième personne. Après cela on va chercher à calculer le montant du placement de la deuxième personne.
+
+\qquad Cette fonction retourne 3387\$
+
+\section{Exercice 10}
+
+\qquad Pour deux prêts hypothécaires accordé à deux taux différent pour le même montant et sur la même durée, c'est le plus petit taux qui aura remboursé le plus, en effet celui avec le plus grand taux va rembourser plus d'intérêts au début du remboursement, donc arriver à la moitié de l'hypothèque, il lui restera à payer plus et il aura aussi payé plus lors de la moitié du remboursement.
+
+\section{Exercice 11}
+
+\qquad D'après les tables d'hypothécaire, le versement mensuel d'un prêt de 40000\$ à 8\% sur 15 ans sera de 379,26\$. Pour un montant de 42000\$ le versement serait entre 379,26\$ et 426,67\$, j'ai pu déduire la somme exacte en utilisant la formule suivante:
+$$ \triangle = r_mp_0 \frac{(1+r_m)^{12N}}{(1+r_m)^{12N}-1}$$
+$$ soit\ \triangle = 398,22\$ $$
+
+Pour calculer le versement d'un prêt d'un montant de 40000\$ sur 15 ans avec cette fois ci un taux effectif, il faut d'abord calculer le taux effectif soit:
+$$ r_{eff} = (1+ \frac{8\%}{12})^{12}-1 $$
+$$ 8,3\%$$
+
+J'ai ensuite utilisé la formule précédente avec ce nouveau taux pour trouver \triangle = 385,965\$ 
+
+\end{document}
